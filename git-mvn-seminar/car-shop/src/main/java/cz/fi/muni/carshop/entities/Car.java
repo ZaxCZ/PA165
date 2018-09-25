@@ -17,6 +17,7 @@ public class Car {
 		this.type = type;
 		this.constructionYear = constructionYear;
 		this.price = price;
+		if (this.price < 0) this.price = 0;
 	}
 
 	public Color getColor() {
