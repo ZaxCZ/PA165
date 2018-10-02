@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.*;
 
 public class CurrencyConvertorImplTest {
 
+    private         ExchangeRateTable mockExchangeRateTable = mock(ExchangeRateTable.class);
+    private         CurrencyConvertorImpl testedConvertor = new CurrencyConvertorImpl(mockExchangeRateTable);
 
 
     @Test
@@ -21,7 +23,6 @@ public class CurrencyConvertorImplTest {
         Currency czk = Currency.getInstance("CZK");
         Currency usd = Currency.getInstance("USD");
 
-        ExchangeRateTable mockExchangeRateTable = mock(ExchangeRateTable.class);
 
         when(mockExchangeRateTable.getExchangeRate(czk, usd).thenReturn(new BigDecimal("0.50")));
         when(mockExchangeRateTable.getExchangeRate(usd, czk).thenReturn(new BigDecimal("2")));
@@ -32,7 +33,6 @@ public class CurrencyConvertorImplTest {
         when(mockExchangeRateTable.getExchangeRate(usd, eur).thenReturn(new BigDecimal("-2.000001")));
         when(mockExchangeRateTable.getExchangeRate(eur, usd).thenReturn(new BigDecimal("0")));
 
-        CurrencyConvertorImpl testedConvertor = new CurrencyConvertorImpl(mockExchangeRateTable);
 
 
         assertThat(testedConvertor.convert(usd, czk, new BigDecimal("1")).isEqualTo(new BigDecimal("2")));
@@ -58,13 +58,6 @@ public class CurrencyConvertorImplTest {
 
     @Test
     public void testConvertWithNullSourceCurrency() {
-        //given
-        Currency czk = Currency.getInstance("CZK");
-
-        ExchangeRateTable mockExchangeRateTable = mock(ExchangeRateTable.class);
-
-        CurrencyConvertorImpl testedConvertor = new CurrencyConvertorImpl(mockExchangeRateTable);
-
         //expect
         Throwable thrown = catchThrowable(() -> { testedConvertor.convert(null, czk, new BigDecimal("1"));});
 
@@ -74,13 +67,6 @@ public class CurrencyConvertorImplTest {
 
     @Test
     public void testConvertWithNullTargetCurrency() {
-        //given
-        Currency czk = Currency.getInstance("CZK");
-
-        ExchangeRateTable mockExchangeRateTable = mock(ExchangeRateTable.class);
-
-        CurrencyConvertorImpl testedConvertor = new CurrencyConvertorImpl(mockExchangeRateTable);
-
         //expect
         Throwable thrown = catchThrowable(() -> { testedConvertor.convert(czk, null, new BigDecimal("1"));});
 
