@@ -41,7 +41,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public List <Product> findByName(String name){
         if (name == null || name.isEmpty())
-            throw new IllegalArgumentException("Cannot search for null e-mail");
+            throw new IllegalArgumentException("Cannot search for null name");
 
         try {
             return em
